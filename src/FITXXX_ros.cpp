@@ -84,8 +84,8 @@ FITXXX_ros_node::FITXXX_ros_node()
   ros::param::get("/fitxxx/scan_range_min", scan_range_min_);
   ros::param::get("/fitxxx/scan_range_max", scan_range_max_);
 
-  ros::param::get("/fitxxx/angle_min", angle_min_);
-  ros::param::get("/fitxxx/angle_max", angle_max_);
+  if(!ros::param::get("/fitxxx/angle_min", angle_min_)) angle_min_ = -1.7453;
+  if(!ros::param::get("/fitxxx/angle_max", angle_max_)) angle_max_ = 1.7453;
   if(!ros::param::get("/fitxxx/scan_topic", scan_topic_)) scan_topic_ = "/scan";
   if(!ros::param::get("/fitxxx/frame", frame_id_)) frame_id_ = "base_scan_akusense";
 
