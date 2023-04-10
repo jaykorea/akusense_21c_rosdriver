@@ -39,6 +39,7 @@ private:
   int scan_seq_;
 
   std::string host_ip_;
+  std::string scan_topic_;
   std::string frame_;
   std::string frame_id_;
 
@@ -85,8 +86,8 @@ FITXXX_ros_node::FITXXX_ros_node()
 
   ros::param::get("/fitxxx/angle_min", angle_min_);
   ros::param::get("/fitxxx/angle_max", angle_max_);
-
-  ros::param::get("/fitxxx/frame", frame_id_);
+  if(!ros::param::get("/fitxxx/scan_topic", scan_topic_)) scan_topic_ = "/scan";
+  if(!ros::param::get("/fitxxx/frame", frame_id_)) frame_id_ = "base_scan_akusense";
 
   ros::param::get("/fitxxx/host_ip", host_ip_);
   ros::param::get("/fitxxx/port", port_);
@@ -96,7 +97,7 @@ FITXXX_ros_node::FITXXX_ros_node()
   // subscribers
 
   // publishers
-  laser_scan_pub_ = node_.advertise<sensor_msgs::LaserScan>("/scan", 1);
+  laser_scan_pub_ = node_.advertise<sensor_msgs::LaserScan>(scan_topic_, 1);
 
   // Services
   //connect_laser_service_ = node_.advertiseService("/fitxxx/connect_laser_srv", &FITXXX_ros_node::connect_laser, this);
